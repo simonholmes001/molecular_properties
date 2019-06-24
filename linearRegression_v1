@@ -106,7 +106,7 @@ plt.savefig("2.png")
 
 #prediction = model.predict(X_test, batch_size=50)
 
-model = load_model('model_1.h5')
+model.save('model_1.h5')
 
 # show the inputs and predicted outputs
 #for i in range(len(X_test)):
