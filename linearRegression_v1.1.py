@@ -54,9 +54,9 @@ print("[INFO] build and compiling model...")
 
 model = tf.keras.Sequential()
 
-model.add(layers.Dense(64, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01), Dropout(0.3), input_dim=X_train.shape[1]))
-model.add(layers.Dense(64, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01), Dropout(0.3)))
-model.add(layers.Dense(1, activation='linear', kernel_regularizer=tf.keras.regularizers.l2(0.01), Dropout(0.3)))
+model.add(layers.Dense(64, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01), input_dim=X_train.shape[1])) # how to work in Dropout???
+model.add(layers.Dense(64, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)))
+model.add(layers.Dense(1, activation='linear', kernel_regularizer=tf.keras.regularizers.l2(0.01)))
 
 model.compile(optimizer='rmsprop',
               loss='mse',
@@ -90,8 +90,8 @@ print(history.history.keys())
 
 plt.plot(history.history['mae'])
 plt.plot(history.history['val_mae'])
-plt.title('model accuracy')
-plt.ylabel('accuracy')
+plt.title('model mae')
+plt.ylabel('mae')
 plt.xlabel('epoch')
 plt.legend(['train', 'test'], loc='upper left')
 plt.savefig("1.2.png")
