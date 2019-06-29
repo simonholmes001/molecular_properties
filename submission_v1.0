@@ -1,0 +1,51 @@
+from datetime import datetime
+startTime = datetime.now()
+
+print("[INFO] loading dependencies...")
+
+# load and evaluate a saved model
+from keras.models import load_model
+
+import tensorflow as tf
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn import preprocessing
+
+
+print("[INFO] loading model...")
+
+# load model
+model = tf.keras.models.load_model('model_1.5.h5')
+#model = load_model('model_1.5.h5')
+# summarize model.
+model.summary()
+
+print("[INFO] loading dataset and preprocessing...")
+
+test = pd.read_csv("test.csv")
+
+id = pd.DataFrame(data = test, columns=["id"])
+
+# one hot encoding
+
+df = pd.get_dummies(test["type"])
+
+test = pd.concat([test, df], axis=1)
+
+test.drop(['id', 'molecule_name', 'type'], axis=1, inplace=True)
+
+print("[INFO] running predictions...")
+
+# make a prediction
+y_predict = model.predict(test)
+
+testResults = pd.concat([id, y_predict], axis=1)
+
+print(testResults.head())
+
+testResults.to_csv('testResults.csv', index=False)
+
+print("[INFO] complete...")
+
+print('\nTime elasped: ', datetime.now() - startTime)
