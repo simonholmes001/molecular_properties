@@ -40,7 +40,7 @@ train["dot"] = train["x_atom_1"] * train["x_atom_0"] + train["y_atom_1"] * train
 
 train_arranged_columns = ['id', 'molecule_name', 'type',
                           'atom_index_0', 'atom_atom_0', 'x_atom_0', 'y_atom_0', 'z_atom_0',
-                          'atom_index_1', 'atom_atom_1', 'x_atom_1', 'y_atom_1', 'z_atom_1',
+                          'atom_index_1', 'atom_atom_1', 'x_atom_1', 'y_atom_1', 'z_atom_1', 'dist', 'dot',
                           'scalar_coupling_constant']
 
 train = train[train_arranged_columns]
