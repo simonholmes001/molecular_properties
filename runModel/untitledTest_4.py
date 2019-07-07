@@ -39,28 +39,33 @@ print("[INFO] loading dataset...")
 
 X_train = np.load('X_train.npy')
 X_val = np.load('X_val.npy')
-X_test = np.load('X_test.npy')
+#X_test = np.load('X_test.npy')
 y_train = np.load('y_train.npy')
 y_val = np.load('y_val.npy')
-y_test = np.load('y_test.npy')
+#y_test = np.load('y_test.npy')
 
 print("[INFO] build and compiling model...")
 
 zero = initializers.Zeros()
-# kernel_initializer=zero
-# kernel_regularizer=regularizers.l1_l2(l1=0.01, l2=0.01)
+kernel_initializer=zero
+kernel_regularizer=regularizers.l1_l2(l1=0.01, l2=0.01)
 
 model = tf.keras.Sequential()
-model.add(layers.Dense(500, activation='relu', input_dim=X_train.shape[1]))
-model.add(layers.Dropout(0.5))
+model.add(layers.Dense(20, activation='relu', input_dim=X_train.shape[1], kernel_initializer=zero,
+                        kernel_regularizer=regularizers.l1_l2(l1=0.01, l2=0.01)))
+#model.add(layers.Dropout(0.5))
 model.add(layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001, center=True, scale=True,
                                 beta_initializer='zeros', gamma_initializer='ones', moving_mean_initializer='zeros',
                                 moving_variance_initializer='ones', beta_regularizer=None, gamma_regularizer=None,
                                 beta_constraint=None, gamma_constraint=None))
-model.add(layers.Dense(200, activation='relu'))
-model.add(layers.Dropout(0.5))
-model.add(layers.Dense(100, activation='relu'))
-model.add(layers.Dropout(0.5))
+model.add(layers.Dense(20, activation='relu', kernel_initializer=zero,
+                        kernel_regularizer=regularizers.l1_l2(l1=0.01, l2=0.01)))
+model.add(layers.BatchNormalization())
+#model.add(layers.Dropout(0.5))
+model.add(layers.Dense(10, activation='relu', kernel_initializer=zero,
+                        kernel_regularizer=regularizers.l1_l2(l1=0.01, l2=0.01)))
+model.add(layers.BatchNormalization())
+#model.add(layers.Dropout(0.5))
 model.add(layers.Dense(1))
 
 rms = RMSprop(lr=0.00001)
@@ -87,7 +92,7 @@ print("[INFO] training model...")
 history = model.fit(X_train, y_train,
             epochs=1000, #200 for images 1.2, 2.2 and model_1.2 / 300 for images 1.3, 2.3 and model_1.3 (based on small_features_3)
             verbose=1,
-            batch_size=1000,
+            batch_size=10000,
             validation_data=(X_val, y_val))
 
 print("[INFO] evaluating model...")

@@ -253,6 +253,8 @@ def kfold_lightgbm(df, debug= False):
     train_id = train_df['id'].copy()
     test_id = test_df['id'].copy()
 
+    train_df.replace([np.inf, -np.inf], np.nan)
+
     train_df.to_csv("train_df.csv", index=False)
     test_df.to_csv("test_df.csv", index=False)
     train_id.to_csv("train_id.csv", index=False)
@@ -265,16 +267,16 @@ def kfold_lightgbm(df, debug= False):
 #    X_train, X_val, y_train, y_val = train_test_split(train_df.drop('scalar_coupling_constant', axis=1),
 #                                                      train_df['scalar_coupling_constant'],
 #                                                      test_size = 0.10, random_state = 21)
-#
+
 #    X_train = X_train.drop(['id', 'atom_0', 'type', 'atom_1','molecule_name'], axis=1).values
 #    y_train = y_train.values
 #    X_val = X_val.drop(['id', 'atom_0', 'type', 'atom_1','molecule_name'], axis=1).values
 #    y_val = y_val.values
-#
+
 #    print("Datasets: Prepared.")
 #    print("Training set has {} shape.".format(X_train.shape))
 #    print("Validation set has {} shape.".format(X_val.shape))
-#
+
 #    params = {'boosting': 'gbdt', 'colsample_bytree': 1,
 #              'learning_rate': 0.1, 'max_depth': 40, 'metric': 'mae',
 #              'min_child_samples': 50, 'num_leaves': 500,
