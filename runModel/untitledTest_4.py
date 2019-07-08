@@ -48,27 +48,42 @@ print("[INFO] build and compiling model...")
 
 zero = initializers.Zeros()
 kernel_initializer=zero
-kernel_regularizer=regularizers.l1_l2(l1=0.01, l2=0.01)
+#kernel_regularizer=regularizers.l1_l2(l1=0.01, l2=0.01)
 
 model = tf.keras.Sequential()
-model.add(layers.Dense(20, activation='relu', input_dim=X_train.shape[1], kernel_initializer=zero,
-                        kernel_regularizer=regularizers.l1_l2(l1=0.01, l2=0.01)))
-#model.add(layers.Dropout(0.5))
+model.add(layers.Dense(100, activation='relu', input_dim=X_train.shape[1], kernel_initializer=zero,
+                        kernel_regularizer=regularizers.l1_l2(l1=0.1, l2=0.1))) # both were at 0.001
+model.add(layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001, center=True, scale=True,
+                                beta_initializer='zeros', gamma_initializer='ones', moving_mean_initializer='zeros',
+                               moving_variance_initializer='ones', beta_regularizer=None, gamma_regularizer=None,
+                                beta_constraint=None, gamma_constraint=None))
+model.add(layers.Dropout(0.5))
+model.add(layers.Dense(100, activation='relu', kernel_initializer=zero,
+                        kernel_regularizer=regularizers.l1_l2(l1=0.1, l2=0.1)))
 model.add(layers.BatchNormalization(axis=-1, momentum=0.99, epsilon=0.001, center=True, scale=True,
                                 beta_initializer='zeros', gamma_initializer='ones', moving_mean_initializer='zeros',
                                 moving_variance_initializer='ones', beta_regularizer=None, gamma_regularizer=None,
                                 beta_constraint=None, gamma_constraint=None))
-model.add(layers.Dense(20, activation='relu', kernel_initializer=zero,
-                        kernel_regularizer=regularizers.l1_l2(l1=0.01, l2=0.01)))
-model.add(layers.BatchNormalization())
+model.add(layers.Dropout(0.5))
+#model.add(layers.Dense(1020, activation='relu', kernel_initializer=zero,
+ #                       kernel_regularizer=regularizers.l1_l2(l1=0.1, l2=0.1)))
+#model.add(layers.BatchNormalization())
 #model.add(layers.Dropout(0.5))
-model.add(layers.Dense(10, activation='relu', kernel_initializer=zero,
-                        kernel_regularizer=regularizers.l1_l2(l1=0.01, l2=0.01)))
-model.add(layers.BatchNormalization())
+#model.add(layers.Dense(10020, activation='relu', kernel_initializer=zero,
+ #                       kernel_regularizer=regularizers.l1_l2(l1=0.1, l2=0.1)))
+#model.add(layers.BatchNormalization())
 #model.add(layers.Dropout(0.5))
+#model.add(layers.Dense(100, activation='relu', kernel_initializer=zero,
+ #                       kernel_regularizer=regularizers.l1_l2(l1=0.1, l2=0.1)))
+#model.add(layers.BatchNormalization())
+#model.add(layers.Dropout(0.5))
+model.add(layers.Dense(100, activation='relu', kernel_initializer=zero,
+                        kernel_regularizer=regularizers.l1_l2(l1=0.1, l2=0.1)))
+model.add(layers.BatchNormalization())
+model.add(layers.Dropout(0.5))
 model.add(layers.Dense(1))
 
-rms = RMSprop(lr=0.00001)
+rms = RMSprop(lr=0.0001) # (lr=0.00001)
 sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 #ada = Adagrad(lr=0.01, epsilon=None, decay=0.0)
 #adam = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
