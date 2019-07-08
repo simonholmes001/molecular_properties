@@ -63,34 +63,43 @@ relu = 'relu'
  #activation=ly,
 
 model = tf.keras.Sequential()
-model.add(layers.Dense(50,activation='relu', input_dim=X_train.shape[1], kernel_initializer=ones,
+model.add(layers.Dense(20,activation='relu', input_dim=X_train.shape[1], kernel_initializer=ones,
                         kernel_regularizer=regularizers.l1_l2(l1=0.01, l2=0.01)))
 model.add(layers.BatchNormalization())
 model.add(layers.Dropout(0.5))
-model.add(layers.Dense(50, activation='relu'))
+model.add(layers.Dense(20, activation='relu'))
+model.add(layers.BatchNormalization())
+model.add(layers.Dropout(0.5))
+model.add(layers.Dense(20, activation='relu'))
+model.add(layers.BatchNormalization())
+model.add(layers.Dropout(0.5))
+model.add(layers.Dense(20, activation='relu'))
+model.add(layers.BatchNormalization())
+model.add(layers.Dropout(0.5))
+model.add(layers.Dense(20, activation='relu'))
+model.add(layers.BatchNormalization())
+model.add(layers.Dropout(0.5))
+model.add(layers.Dense(20, activation='relu'))
 model.add(layers.BatchNormalization())
 model.add(layers.Dropout(0.5))
 model.add(layers.Dense(50, activation='relu'))
 model.add(layers.BatchNormalization())
 model.add(layers.Dropout(0.5))
-model.add(layers.Dense(100, activation='relu'))
+model.add(layers.Dense(10, activation='relu'))
 model.add(layers.BatchNormalization())
 model.add(layers.Dropout(0.5))
-#model.add(layers.Dense(100, activation='relu'))
-#model.add(layers.BatchNormalization())
-#model.add(layers.Dropout(0.5))
-#odel.add(layers.Dense(100, activation='relu'))
-#model.add(layers.BatchNormalization())
-#model.add(layers.Dropout(0.5))
-#model.add(layers.Dense(50, activation='relu'))
-#model.add(layers.BatchNormalization())
-#model.add(layers.Dropout(0.5))
-#model.add(layers.Dense(50, activation='relu'))
-#model.add(layers.BatchNormalization())
-#model.add(layers.Dropout(0.5))
-#model.add(layers.Dense(50, activation='relu'))
-#model.add(layers.BatchNormalization())
-#model.add(layers.Dropout(0.5))
+model.add(layers.Dense(10, activation='relu'))
+model.add(layers.BatchNormalization())
+model.add(layers.Dropout(0.5))
+model.add(layers.Dense(10, activation='relu'))
+model.add(layers.BatchNormalization())
+model.add(layers.Dropout(0.5))
+model.add(layers.Dense(10, activation='relu'))
+model.add(layers.BatchNormalization())
+model.add(layers.Dropout(0.5))
+model.add(layers.Dense(10, activation='relu'))
+model.add(layers.BatchNormalization())
+model.add(layers.Dropout(0.5))
 model.add(layers.Dense(1))
 
 rms = RMSprop(lr=0.002) # (lr=0.00001)
@@ -115,18 +124,10 @@ model.get_weights()
 print("[INFO] training model...")
 
 history = model.fit(X_train, y_train,
-            epochs=1000,
+            epochs=30,
             verbose=1,
             batch_size=10000,
             validation_data=(X_val, y_val))
-
-print("[INFO] evaluating model...")
-
-score = model.evaluate(X_test,
-                        y_test
-                        )
-
-print(score)
 
 # list all data in history
 print(history.history.keys())
