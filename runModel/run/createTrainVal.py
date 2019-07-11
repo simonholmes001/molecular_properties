@@ -21,7 +21,7 @@ def timer(title):
 
 def import_data():
 
-    global data_set, df_train, df_test
+    #global data_set, df_train, df_test
 
     data_set = input("Which data set do you want to preprocess, train or test?...   ")
 
@@ -44,60 +44,21 @@ def import_data():
     else:
         return df_test, data_set
 
-def group_by_type():
+def group_by_type(df, data_set):
 
-    global coupling_type, df_1, df_2, df_3, df_4, df_5, df_6, df_7, df_8
+    #global coupling_type, df_1, df_2, df_3, df_4, df_5, df_6, df_7, df_8
 
     coupling_type = input("Which type do you want to preprocess? (If all, type <all>, or select one from 3JHC, 2JHC, 1JHC, 3JHH, 2JHH, 3JHN, 2JHN, 1JHN?...   ")
 
     print("[INFO] Grouping...")
 
-    if data_set == "train":
-        df = df_train.groupby(['type'])
-        df_1 = df.get_group('3JHC')
-        df_2 = df.get_group('2JHC')
-        df_3 = df.get_group('1JHC')
-        df_4 = df.get_group('3JHH')
-        df_5 = df.get_group('2JHH')
-        df_6 = df.get_group('3JHN')
-        df_7 = df.get_group('2JHN')
-        df_8 = df.get_group('1JHN')
-    else:
-        df = df_test.groupby(['type'])
-        df_1 = df.get_group('3JHC')
-        df_2 = df.get_group('2JHC')
-        df_3 = df.get_group('1JHC')
-        df_4 = df.get_group('3JHH')
-        df_5 = df.get_group('2JHH')
-        df_6 = df.get_group('3JHN')
-        df_7 = df.get_group('2JHN')
-        df_8 = df.get_group('1JHN')
+    #if data_set == "train":
+    df = df.groupby(['type'])
+    df = df.get_group(coupling_type)
 
-    df_1.drop(['type', 'atom_0', 'atom_1'], axis=1, inplace=True)
-    df_2.drop(['type', 'atom_0', 'atom_1'], axis=1, inplace=True)
-    df_3.drop(['type', 'atom_0', 'atom_1'], axis=1, inplace=True)
-    df_4.drop(['type', 'atom_0', 'atom_1'], axis=1, inplace=True)
-    df_5.drop(['type', 'atom_0', 'atom_1'], axis=1, inplace=True)
-    df_6.drop(['type', 'atom_0', 'atom_1'], axis=1, inplace=True)
-    df_7.drop(['type', 'atom_0', 'atom_1'], axis=1, inplace=True)
-    df_8.drop(['type', 'atom_0', 'atom_1'], axis=1, inplace=True)
+    df.drop(['type', 'atom_0', 'atom_1'], axis=1, inplace=True)
 
-    if coupling_type == "3JHC":
-        return df_1
-    elif coupling_type == "2JHC":
-        return df_2
-    elif coupling_type == "1JHC":
-        return df_3
-    elif coupling_type == "3JHH":
-        return df_4
-    elif coupling_type == "2JHH":
-        return df_5
-    elif coupling_type == "3JHN":
-        return df_6
-    elif coupling_type == "2JHN":
-        return df_7
-    else:
-        return df_8
+    return df
 
     print("[INFO] Grouping completed")
 
@@ -174,12 +135,12 @@ def main(debug = False):
 
     with timer("Importing datasets: "):
         print("Importing datasets")
-        df = import_data()
+        df, data_set = import_data()
         gc.collect();
 
     with timer("Grouping by type: "):
         print("Group by type")
-        df = group_by_type()
+        df = group_by_type(df, data_set)
         gc.collect();
 
     with timer("Preparing X_train / y_train: "):
