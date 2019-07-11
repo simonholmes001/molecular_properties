@@ -62,24 +62,7 @@ def group_by_type(df, data_set):
 
     print("[INFO] Grouping completed")
 
-def train_validate():
-
-    if coupling_type == "3JHC":
-        df = df_1
-    elif coupling_type == "2JHC":
-        df = df_2
-    elif coupling_type == "1JHC":
-        df = df_3
-    elif coupling_type == "3JHH":
-        df =  df_4
-    elif coupling_type == "2JHH":
-        df =  df_5
-    elif coupling_type == "3JHN":
-        df =  df_6
-    elif coupling_type == "2JHN":
-        df =  df_7
-    else:
-        df =  df_8
+def train_validate(df):
 
     print("[INFO] preparing X_train / y_train...")
 
@@ -145,7 +128,7 @@ def main(debug = False):
 
     with timer("Preparing X_train / y_train: "):
         print("X_train / y_train")
-        df = train_validate()
+        df = train_validate(df)
         gc.collect();
 
 if __name__ == "__main__":
