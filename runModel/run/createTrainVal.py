@@ -133,6 +133,26 @@ def train_validate():
                                                           y,
                                                           test_size = 0.20)
 
+    normalization = input("Which type of normalization do you want? (standardScalar, minMax, quartile, normal with l1, normal with l2, )...   ")
+
+    print("[INFO] Preparing normalization...")
+
+    if normalization == "standardScalar":
+        scaler = preprocessing.StandardScaler(copy=True, with_mean=True, with_std=True).fit(X_train)
+    elif normalization == "minMax":
+        min_max_scaler = preprocessing.MinMaxScaler()
+        X_train = min_max_scaler.fit_transform(X_train)
+    elif normalization == "quartile":
+         quantile_transformer = preprocessing.QuantileTransformer(random_state=0)
+         X_train = quantile_transformer.fit_transform(X_train)
+    elif normalization == "normal with l1":
+         norm = 'l1'
+         X_train = preprocessing.normalize(X_train, norm=norm)
+    else:
+        norm = 'l2'
+        X_train = preprocessing.normalize(X_train, norm=norm)
+
+
     print("Datasets: Prepared")
     print("Training sets have shape {} and {}.".format(X_train.shape, y_train.shape))
     print("Validation sets have shape {} and {}.".format(X_val.shape, y_val.shape))
