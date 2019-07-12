@@ -83,19 +83,19 @@ def importing_datasets():
 
     return X_train, X_val, y_train, y_val
 
-def create_model(X_train):
+def create_model(X_train, dropout=0.1, learning=0.1, kernel='uniform'):
 
     model = tf.keras.Sequential()
-    model.add(layers.Dense(64, input_dim=X_train.shape[1], kernel_initializer='uniform', activation='relu'))
-    model.add(layers.Dropout(0.1))
+    model.add(layers.Dense(64, input_dim=X_train.shape[1], kernel_initializer=kernel, activation='relu'))
+    model.add(layers.Dropout(dropout))
     model.add(layers.Dense(64, kernel_initializer='uniform', activation='relu'))
     model.add(layers.Dense(64, kernel_initializer='uniform', activation='relu'))
-    model.add(layers.Dropout(0.1))
+    model.add(layers.Dropout(dropout))
     model.add(layers.Dense(1))
 
     # compile model
 
-    rms = RMSprop(lr=0.0001, rho=0.9, epsilon=None, decay=0.0)
+    rms = RMSprop(lr=learning, rho=0.9, epsilon=None, decay=0.0)
 
     model.compile(loss='mse',
                   optimizer=rms,
@@ -110,8 +110,8 @@ def create_model(X_train):
 
 def cross_validation(model, X_train, X_val, y_train, y_val):
 
-    def get_model():
-        return create_model(X_train)
+    def get_model(dropout=0.1, learning=0.1, kernel='uniform'):
+        return create_model(X_train, dropout=dropout, learning=learning, kernel=kernel)
 
     # create the sklearn model for the network
     model_init_batch_epoch_CV = KerasRegressor(build_fn=get_model, verbose=1)
@@ -122,16 +122,17 @@ def cross_validation(model, X_train, X_val, y_train, y_val):
     zero = initializers.Zeros()
     ones = initializers.Ones()
     constant = initializers.Constant(value=0)
-    rand = initializers.RandomNormal(mean=0.0, stddev=0.05, seed=None)
+    rand = initializers.RandomNormal(mean=0.0, stddev=0.05, seed=None) # cannot use this option for the moment, need to find the correct syntax
     uniform = 'uniform'
 
-    init_mode = [zero, ones, constant, uniform]
+    kernel = [zero, ones, constant, uniform]
     batches = [1000,10000]
     epochs = [10, 20, 30]
     dropout = [0.1, 0.2, 0.5]
+    learning = [0.1, 0.01, 0.001, 0.0001]
 
     # grid search for initializer, batch size and number of epochs
-    param_grid = dict(batch_size=batches, epochs=epochs)
+    param_grid = dict(batch_size=batches, epochs=epochs, dropout=dropout, kernel=kernel)
     grid = GridSearchCV(estimator=model_init_batch_epoch_CV,
                         param_grid=param_grid,
                         cv=3)

@@ -58,7 +58,7 @@ def group_by_type(df, data_set):
 
     df.drop(['type', 'atom_0', 'atom_1'], axis=1, inplace=True)
 
-    return df
+    return df, coupling_type # if model fails, delete coupling_type
 
     print("[INFO] Grouping completed")
 
