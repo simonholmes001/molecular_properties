@@ -126,16 +126,16 @@ def cross_validation(model, X_train, X_val, y_train, y_val):
     uniform = 'uniform'
 
     kernel = [zero, ones, constant, uniform]
-    batches = [1000,10000]
+    batches = [1000,5000,10000]
     epochs = [10, 20, 30]
     dropout = [0.1, 0.2, 0.5]
-    learning = [0.1, 0.01, 0.001, 0.0001]
+    learning = [0.01, 0.001, 0.0001]
 
     # grid search for initializer, batch size and number of epochs
-    param_grid = dict(batch_size=batches, epochs=epochs, dropout=dropout, kernel=kernel)
+    param_grid = dict(batch_size=batches, epochs=epochs, dropout=dropout, kernel=kernel, learning=learning)
     grid = GridSearchCV(estimator=model_init_batch_epoch_CV,
                         param_grid=param_grid,
-                        cv=3)
+                        cv=3, n_jobs=-1)
     grid_result = grid.fit(X_train, y_train)
 
     # printresults
