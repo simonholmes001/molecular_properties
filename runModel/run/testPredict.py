@@ -69,11 +69,11 @@ def group_by_type(df_test):
     df7.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1'], axis=1, inplace=True)
     df8.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1'], axis=1, inplace=True)
 
-    return df1, df2, df3, df4, df5, df6, df7, df8
+    return df1, df2, df3, df4, df5, df6, df7, df8, id1, id2, id3, id4, id5, id6, id7, id8
 
     print("[INFO] Grouping completed")
 
-def predictions(df1, df2, df3, df4, df5, df6, df7, df8):
+def predictions(df1, df2, df3, df4, df5, df6, df7, df8, id1, id2, id3, id4, id5, id6, id7, id8):
 
     print("[INFO] running predictions...")
 
@@ -169,12 +169,12 @@ def main(debug = False):
 
     with timer("Grouping by type: "):
         print("Group by type")
-        df1, df2, df3, df4, df5, df6, df7, df8 = group_by_type(df_test)
+        df1, df2, df3, df4, df5, df6, df7, df8, id1, id2, id3, id4, id5, id6, id7, id8 = group_by_type(df_test)
         gc.collect();
 
-    with timer("Preparing to train: "):
-        print("Training complete")
-        X_test1, X_test2, X_test3, X_test4, X_test5, X_test6, X_test7, X_test8 = predictions(df1, df2, df3, df4, df5, df6, df7, df8)
+    with timer("Preparing to predict: "):
+        print("Predictions complete")
+        predictions(ddf1, df2, df3, df4, df5, df6, df7, df8, id1, id2, id3, id4, id5, id6, id7, id8)
         gc.collect();
 
 if __name__ == "__main__":
