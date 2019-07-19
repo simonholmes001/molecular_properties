@@ -125,9 +125,9 @@ def cross_validation(model, X_train, X_val, y_train, y_val):
     rand = initializers.RandomNormal(mean=0.0, stddev=0.05, seed=None) # cannot use this option for the moment, need to find the correct syntax
     uniform = 'uniform'
 
-    kernel = [zero, ones, constant, uniform]
+    kernel = [zero, ones, uniform]
     batches = [1000,5000,10000]
-    epochs = [10, 20, 30]
+    epochs = [10, 30]
     dropout = [0.1, 0.2, 0.5]
     learning = [0.01, 0.001, 0.0001]
 
@@ -135,7 +135,7 @@ def cross_validation(model, X_train, X_val, y_train, y_val):
     param_grid = dict(batch_size=batches, epochs=epochs, dropout=dropout, kernel=kernel, learning=learning)
     grid = GridSearchCV(estimator=model_init_batch_epoch_CV,
                         param_grid=param_grid,
-                        cv=3)
+                        cv=3, n_jobs=-1)
     grid_result = grid.fit(X_train, y_train)
 
     # printresults
