@@ -326,7 +326,7 @@ def create_model(X_train1, y_train1, X_train2, y_train2, X_train3, y_train3, X_t
 
     print("[INFO] Preparing model 5...")
 
-    model5.save('model5.h5')
+    model4.save('model4.h5')
 
     model5 = tf.keras.Sequential()
     model5.add(layers.Dense(64, input_dim=X_train5.shape[1], kernel_initializer='uniform', activation='relu'))
