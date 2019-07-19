@@ -174,7 +174,7 @@ def main(debug = False):
 
     with timer("Preparing to predict: "):
         print("Predictions complete")
-        predictions(ddf1, df2, df3, df4, df5, df6, df7, df8, id1, id2, id3, id4, id5, id6, id7, id8)
+        predictions(df1, df2, df3, df4, df5, df6, df7, df8, id1, id2, id3, id4, id5, id6, id7, id8)
         gc.collect();
 
 if __name__ == "__main__":
