@@ -27,7 +27,7 @@ def import_data():
 
     print("[INFO] Loading train data set. This action will take between 20 and 60 seconds...")
 
-    df_train = pd.read_csv(os.path.join(DATA_DIR,"df_test.csv"))
+    df_test = pd.read_csv(os.path.join(DATA_DIR,"df_test.csv"))
     print("Dataset loaded")
 
     return df_test
