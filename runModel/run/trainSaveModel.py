@@ -480,8 +480,7 @@ def main(debug = False):
 
     with timer("Preparing to train: "):
         print("Training complete")
-        X_train1, y1, X_train2, y2, X_train3, y3, X_train4, y4, X_train5, y5, X_train6, y6, X_train7, y7, X_train8, y8
-        = train_validate(df1, df2, df3, df4, df5, df6, df7, df8)
+        X_train1, y1, X_train2, y2, X_train3, y3, X_train4, y4, X_train5, y5, X_train6, y6, X_train7, y7, X_train8, y8 = train_validate(df1, df2, df3, df4, df5, df6, df7, df8)
         gc.collect();
 
     with timer("Creating and testing model: "):
