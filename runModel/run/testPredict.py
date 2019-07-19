@@ -86,11 +86,11 @@ def group_by_type(df_test):
 
     print("Datasets: Prepared")
 
-    return X_test1, X_test2, X_test3, X_test4, X_test5, X_test7, X_test8, id1, id2, id3, id4, id5, id6, id7, id8
+    return X_test1, X_test2, X_test3, X_test4, X_test5, X_test6, X_test7, X_test8, id1, id2, id3, id4, id5, id6, id7, id8
 
     print("[INFO] Grouping completed")
 
-def predictions(X_test1, X_test2, X_test3, X_test4, X_test5, X_test7, X_test8, id1, id2, id3, id4, id5, id6, id7, id8):
+def predictions(X_test1, X_test2, X_test3, X_test4, X_test5, X_test6, X_test7, X_test8, id1, id2, id3, id4, id5, id6, id7, id8):
 
     print("[INFO] running predictions...")
 
@@ -186,12 +186,12 @@ def main(debug = False):
 
     with timer("Grouping by type: "):
         print("Group by type")
-        X_test1, X_test2, X_test3, X_test4, X_test5, X_test7, X_test8, id1, id2, id3, id4, id5, id6, id7, id8 = group_by_type(df_test)
+        X_test1, X_test2, X_test3, X_test4, X_test5, X_test6, X_test7, X_test8, id1, id2, id3, id4, id5, id6, id7, id8 = group_by_type(df_test)
         gc.collect();
 
     with timer("Preparing to predict: "):
         print("Predictions complete")
-        predictions(X_test1, X_test2, X_test3, X_test4, X_test5, X_test7, X_test8, id1, id2, id3, id4, id5, id6, id7, id8)
+        predictions(X_test1, X_test2, X_test3, X_test4, X_test5, X_test6, X_test7, X_test8, id1, id2, id3, id4, id5, id6, id7, id8)
         gc.collect();
 
 if __name__ == "__main__":
