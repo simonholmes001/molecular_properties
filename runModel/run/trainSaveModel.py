@@ -285,11 +285,11 @@ def create_model(X_train1, y1, X_train2, y2, X_train3, y3, X_train4, y4, X_train
 
     print("[INFO] Preparing model 4...")
 
-    L4 = [{'batch_size': 1000, 'dropout': 0.1, 'epochs': 30, 'kernel': 'uniform', 'learning': 0.001}] # 2JHN
-    L5 = [{'batch_size': 1000, 'dropout': 0.1, 'epochs': 30, 'kernel': 'uniform', 'learning': 0.001}] # 2JHC
-    L6 = [{'batch_size': 1000, 'dropout': 0.1, 'epochs': 30, 'kernel': 'uniform', 'learning': 0.001}] # 3JHH
-    L7 = [{'batch_size': 1000, 'dropout': 0.1, 'epochs': 30, 'kernel': 'uniform', 'learning': 0.001}] # 3JHC
-    L8 = [{'batch_size': 1000, 'dropout': 0.1, 'epochs': 30, 'kernel': 'uniform', 'learning': 0.001}] # 3JHN
+    # L4 = [{'batch_size': 1000, 'dropout': 0.1, 'epochs': 30, 'kernel': 'uniform', 'learning': 0.001}] # 2JHN
+    # L5 = [{'batch_size': 1000, 'dropout': 0.1, 'epochs': 30, 'kernel': 'uniform', 'learning': 0.001}] # 2JHC
+    # L6 = [{'batch_size': 1000, 'dropout': 0.1, 'epochs': 30, 'kernel': 'uniform', 'learning': 0.001}] # 3JHH
+    # L7 = [{'batch_size': 1000, 'dropout': 0.1, 'epochs': 30, 'kernel': 'uniform', 'learning': 0.001}] # 3JHC
+    # L8 = [{'batch_size': 1000, 'dropout': 0.1, 'epochs': 30, 'kernel': 'uniform', 'learning': 0.001}] # 3JHN
 
     model4 = tf.keras.Sequential()
     model4.add(layers.Dense(64, input_dim=X_train4.shape[1], kernel_initializer='uniform', activation='relu'))
@@ -480,12 +480,13 @@ def main(debug = False):
 
     with timer("Preparing to train: "):
         print("Training complete")
-        X_train1, y1, X_train2, y2, X_train3, y3, X_train4, y4, X_train5, y5, X_train6, y6, X_train7, y7, X_train8, y8 = train_validate(df1, df2, df3, df4, df5, df6, df7, df8)
+        X_train1, y1, X_train2, y2, X_train3, y3, X_train4, y4, X_train5, y5, X_train6, y6, X_train7, y7, X_train8, y8
+        = train_validate(df1, df2, df3, df4, df5, df6, df7, df8)
         gc.collect();
 
     with timer("Creating and testing model: "):
         print("Creating and testing model")
-        model = create_model(X_train1, y1, X_train2, y2, X_train3, y3, X_train4, y4, X_train5, y5, X_train6, y6, X_train7, y7, X_train8, y8)
+        create_model(X_train1, y1, X_train2, y2, X_train3, y3, X_train4, y4, X_train5, y5, X_train6, y6, X_train7, y7, X_train8, y8)
         gc.collect();
 
 if __name__ == "__main__":
