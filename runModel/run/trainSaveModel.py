@@ -131,14 +131,14 @@ def train_validate(df1, df2, df3, df4, df5, df6, df7, df8):
     y7 = pd.DataFrame(data = df7, columns=["scalar_coupling_constant"])
     y8 = pd.DataFrame(data = df8, columns=["scalar_coupling_constant"])
 
-    X_train1, y_train1 = train_test_split(df1.drop(['id', 'molecule_name', 'scalar_coupling_constant'], axis=1),y1,test_size = 0)
-    X_train2, y_train2 = train_test_split(df2.drop(['id', 'molecule_name', 'scalar_coupling_constant'], axis=1),y2,test_size = 0)
-    X_train3, y_train3 = train_test_split(df3.drop(['id', 'molecule_name', 'scalar_coupling_constant'], axis=1),y3,test_size = 0)
-    X_train4, y_train4 = train_test_split(df4.drop(['id', 'molecule_name', 'scalar_coupling_constant'], axis=1),y4,test_size = 0)
-    X_train5, y_train5 = train_test_split(df5.drop(['id', 'molecule_name', 'scalar_coupling_constant'], axis=1),y5,test_size = 0)
-    X_train6, y_train6 = train_test_split(df6.drop(['id', 'molecule_name', 'scalar_coupling_constant'], axis=1),y6,test_size = 0)
-    X_train7, y_train7 = train_test_split(df7.drop(['id', 'molecule_name', 'scalar_coupling_constant'], axis=1),y7,test_size = 0)
-    X_train8, y_train8 = train_test_split(df8.drop(['id', 'molecule_name', 'scalar_coupling_constant'], axis=1),y8,test_size = 0)
+    X_train1, y_train1 = train_test_split(df1.drop(['id', 'molecule_name', 'scalar_coupling_constant'], axis=1),y1,test_size = 0.001)
+    X_train2, y_train2 = train_test_split(df2.drop(['id', 'molecule_name', 'scalar_coupling_constant'], axis=1),y2,test_size = 0.001)
+    X_train3, y_train3 = train_test_split(df3.drop(['id', 'molecule_name', 'scalar_coupling_constant'], axis=1),y3,test_size = 0.001)
+    X_train4, y_train4 = train_test_split(df4.drop(['id', 'molecule_name', 'scalar_coupling_constant'], axis=1),y4,test_size = 0.001)
+    X_train5, y_train5 = train_test_split(df5.drop(['id', 'molecule_name', 'scalar_coupling_constant'], axis=1),y5,test_size = 0.001)
+    X_train6, y_train6 = train_test_split(df6.drop(['id', 'molecule_name', 'scalar_coupling_constant'], axis=1),y6,test_size = 0.001)
+    X_train7, y_train7 = train_test_split(df7.drop(['id', 'molecule_name', 'scalar_coupling_constant'], axis=1),y7,test_size = 0.001)
+    X_train8, y_train8 = train_test_split(df8.drop(['id', 'molecule_name', 'scalar_coupling_constant'], axis=1),y8,test_size = 0.001)
 
     normalization = input("Which type of normalization do you want? (standardScalar, minMax, quartile, normal with l1, normal with l2, )...   ")
 
