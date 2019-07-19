@@ -77,102 +77,394 @@ def timer(title):
     yield
     print("{} - done in {:.0f}s".format(title, time.time() - t0))
 
-def train_validate(df):
+def import_data():
 
-    print("[INFO] preparing X_train / y_train...")
+    print("[INFO] Loading train data set. This action will take between 20 and 60 seconds...")
 
-    y = pd.DataFrame(data = df, columns=["scalar_coupling_constant"])
+    df_train = pd.read_csv(os.path.join(DATA_DIR,"df_train.csv"))
+    print("Dataset loaded")
 
-    # Split the 'features' and 'income' data into training and testing sets
-    X_train = df.drop(['id', 'molecule_name', 'scalar_coupling_constant'], axis=1)
+    return df_train
 
-    normalization = input("Which type of normalization do you want? (standardScalar, minMax, quartile, normal with l1, normal with l2, )...   ")
+def group_by_type(df_train):
+
+    print("[INFO] Grouping by type...")
+
+    labels = df_train.type.unique()
+
+    dfs = {}
+    for label in labels:
+        dfs[label] = df_train[df_train['type'] == label]
+
+    df1 = dfs["1JHC"]
+    df2 = dfs["2JHH"]
+    df3 = dfs["1JHN"]
+    df4 = dfs["2JHN"]
+    df5 = dfs["2JHC"]
+    df6 = dfs["3JHH"]
+    df7 = dfs["3JHC"]
+    df8 = dfs["3JHN"]
+
+    return df1, df2, df3, df4, df5, df6, df7, df8
+
+    print("[INFO] Grouping completed")
+
+def train_validate(df1, df2, df3, df4, df5, df6, df7, df8):
+
+    print("[INFO] preprocessing...")
+
+    id1 = pd.DataFrame(data = df1, columns=["id", "molecule_name"])
+    id2 = pd.DataFrame(data = df2, columns=["id", "molecule_name"])
+    id3 = pd.DataFrame(data = df3, columns=["id", "molecule_name"])
+    id4 = pd.DataFrame(data = df4, columns=["id", "molecule_name"])
+    id5 = pd.DataFrame(data = df5, columns=["id", "molecule_name"])
+    id6 = pd.DataFrame(data = df6, columns=["id", "molecule_name"])
+    id7 = pd.DataFrame(data = df7, columns=["id", "molecule_name"])
+    id8 = pd.DataFrame(data = df8, columns=["id", "molecule_name"])
+
+    y1 = pd.DataFrame(data = df1, columns=["scalar_coupling_constant"])
+    y2 = pd.DataFrame(data = df2, columns=["scalar_coupling_constant"])
+    y3 = pd.DataFrame(data = df3, columns=["scalar_coupling_constant"])
+    y4 = pd.DataFrame(data = df4, columns=["scalar_coupling_constant"])
+    y5 = pd.DataFrame(data = df5, columns=["scalar_coupling_constant"])
+    y6 = pd.DataFrame(data = df6, columns=["scalar_coupling_constant"])
+    y7 = pd.DataFrame(data = df7, columns=["scalar_coupling_constant"])
+    y8 = pd.DataFrame(data = df8, columns=["scalar_coupling_constant"])
+
+    X_train1, X_test1, y_train1, y_test1 = train_test_split(df1.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1','scalar_coupling_constant'], axis=1),y1,test_size = 0.0001)
+    X_train2, X_test2, y_train2, y_test2 = train_test_split(df2.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1','scalar_coupling_constant'], axis=1),y2,test_size = 0.0001)
+    X_train3, X_test3, y_train3, y_test3 = train_test_split(df3.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1','scalar_coupling_constant'], axis=1),y3,test_size = 0.0001)
+    X_train4, X_test4, y_train4, y_test4 = train_test_split(df4.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1','scalar_coupling_constant'], axis=1),y4,test_size = 0.0001)
+    X_train5, X_test5, y_train5, y_test5 = train_test_split(df5.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1','scalar_coupling_constant'], axis=1),y5,test_size = 0.0001)
+    X_train6, X_test6, y_train6, y_test6 = train_test_split(df6.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1','scalar_coupling_constant'], axis=1),y6,test_size = 0.0001)
+    X_train7, X_test7, y_train7, y_test7 = train_test_split(df7.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1','scalar_coupling_constant'], axis=1),y7,test_size = 0.0001)
+    X_train8, X_test8, y_train8, y_test8 = train_test_split(df8.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1','scalar_coupling_constant'], axis=1),y8,test_size = 0.0001)
+
+    # normalization = input("Which type of normalization do you want? (standardScalar, minMax, quartile, normal with l1, normal with l2, )...   ")
 
     print("[INFO] Preparing normalization...")
 
-    if normalization == "standardScalar":
-        scaler = preprocessing.StandardScaler(copy=True, with_mean=True, with_std=True).fit(X_train)
-    elif normalization == "minMax":
-        min_max_scaler = preprocessing.MinMaxScaler()
-        X_train = min_max_scaler.fit_transform(X_train)
-    elif normalization == "quartile":
-         quantile_transformer = preprocessing.QuantileTransformer(random_state=0)
-         X_train = quantile_transformer.fit_transform(X_train)
-    elif normalization == "normal with l1":
-         norm = 'l1'
-         X_train = preprocessing.normalize(X_train, norm=norm)
-    else:
-        norm = 'l2'
-        X_train = preprocessing.normalize(X_train, norm=norm)
-
+    min_max_scaler = preprocessing.MinMaxScaler()
+    X_train1 = min_max_scaler.fit_transform(X_train1)
+    X_train2 = min_max_scaler.fit_transform(X_train2)
+    X_train3 = min_max_scaler.fit_transform(X_train3)
+    X_train4 = min_max_scaler.fit_transform(X_train4)
+    X_train5 = min_max_scaler.fit_transform(X_train5)
+    X_train6 = min_max_scaler.fit_transform(X_train6)
+    X_train7 = min_max_scaler.fit_transform(X_train7)
+    X_train8 = min_max_scaler.fit_transform(X_train8)
 
     print("Datasets: Prepared")
-    print("Training sets have shape {} and {}.".format(X_train.shape, y_train.shape))
 
-    print("[INFO] saving data...")
+    return X_train1, y_train1, X_train2, y_train2, X_train3, y_train3, X_train4, y_train4, X_train5, y_train5, X_train6, y_train6, X_train7, y_train7, X_train8, y_train8
 
-    print("[INFO] completed...")
+def create_model(X_train1, y_train1, X_train2, y_train2, X_train3, y_train3, X_train4, y_train4, X_train5, y_train5, X_train6, y_train6, X_train7, y_train7, X_train8, y_train8):
 
-    return X_train, y_train
+    # L1 = [{'batch_size': 1000, 'dropout': 0.2, 'epochs': 30, 'kernel': <keras.initializers.Ones object at 0x7f2532713128>, 'learning': 0.01}] # 1JHC
 
-def create_model(X_train, dropout=0.1, learning=0.1, kernel='uniform', coupling_type): # MUST FIX EACH OF THESE PARAMETRES BEASED ON CORSS VALIDATION
+    ones = initializers.Ones()
 
-    model = tf.keras.Sequential()
-    model.add(layers.Dense(64, input_dim=X_train.shape[1], kernel_initializer=kernel, activation='relu'))
-    model.add(layers.Dropout(dropout))
-    model.add(layers.Dense(64, kernel_initializer='uniform', activation='relu'))
-    model.add(layers.Dense(64, kernel_initializer='uniform', activation='relu'))
-    model.add(layers.Dropout(dropout))
-    model.add(layers.Dense(1))
+    model1 = tf.keras.Sequential()
+    model1.add(layers.Dense(64, input_dim=X_train1.shape[1], kernel_initializer=ones, activation='relu'))
+    model1.add(layers.Dropout(0.2))
+    model1.add(layers.Dense(64, kernel_initializer='uniform', activation='relu'))
+    model1.add(layers.Dense(64, kernel_initializer='uniform', activation='relu'))
+    model1.add(layers.Dropout(0.2))
+    model1.add(layers.Dense(1))
 
     # compile model
 
-    rms = RMSprop(lr=learning, rho=0.9, epsilon=None, decay=0.0)
+    rms = RMSprop(lr=0.01, rho=0.9, epsilon=None, decay=0.0)
 
-    model.compile(loss='mse',
+    model1.compile(loss='mse',
                   optimizer=rms,
                   metrics=['mae'])
 
-    model.output_shape
-    model.summary()
-    model.get_config()
-    model.get_weights()
+    model1.output_shape
+    model1.summary()
+    model1.get_config()
+    model1.get_weights()
 
-    print("[INFO] training model...")
+    print("[INFO] training model 1...")
 
-    history = model.fit(X_train, y_train,
+    history = model1.fit(X_train1, y_train1,
                 epochs=30,
                 verbose=1,
-                batch_size=10000)
+                batch_size=1000)
 
     # list all data in history
     print(history.history.keys())
 
-    # summarise history for accuracy
-
-    plt.plot(history.history['mae'])
-    plt.plot(history.history['val_mae'])
-    plt.title('model mae')
-    plt.ylabel('mae')
-    plt.xlabel('epoch')
-    plt.legend(['train', 'test'], loc='upper left')
-    plt.savefig("test.png")
-    plt.clf()
-
     # we choose the initializers that came at the top in our previous cross-validation!!
-    zero = initializers.Zeros()
-    ones = initializers.Ones()
-    constant = initializers.Constant(value=0)
-    rand = initializers.RandomNormal(mean=0.0, stddev=0.05, seed=None) # cannot use this option for the moment, need to find the correct syntax
-    uniform = 'uniform'
+#    zero = initializers.Zeros()
+#    ones = initializers.Ones()
+#    constant = initializers.Constant(value=0)
+#    rand = initializers.RandomNormal(mean=0.0, stddev=0.05, seed=None) # cannot use this option for the moment, need to find the correct syntax
+#    uniform = 'uniform'
 
-    kernel = [zero, ones, constant, uniform]
-    batches = [1000,10000]
-    epochs = [10, 20, 30]
-    dropout = [0.1, 0.2, 0.5]
-    learning = [0.1, 0.01, 0.001, 0.0001]
+    model1.save('model1.h5')
 
-    model.save('model {}.h5'.format(coupling_type))
+    print("[INFO] Preparing model 2...")
+
+    # L2 = [{'batch_size': 1000, 'dropout': 0.2, 'epochs': 30, 'kernel': 'uniform', 'learning': 0.001}] # 2JHH
+
+    model2 = tf.keras.Sequential()
+    model2.add(layers.Dense(64, input_dim=X_train2.shape[1], kernel_initializer='uniform', activation='relu'))
+    model2.add(layers.Dropout(0.2))
+    model2.add(layers.Dense(64, kernel_initializer='uniform', activation='relu'))
+    model2.add(layers.Dense(64, kernel_initializer='uniform', activation='relu'))
+    model2.add(layers.Dropout(0.2))
+    model2.add(layers.Dense(1))
+
+    # compile model
+
+    rms = RMSprop(lr=0.001, rho=0.9, epsilon=None, decay=0.0)
+
+    model2.compile(loss='mse',
+                  optimizer=rms,
+                  metrics=['mae'])
+
+    model2.output_shape
+    model2.summary()
+    model2.get_config()
+    model2.get_weights()
+
+    print("[INFO] training model 2...")
+
+    history = model2.fit(X_train2, y_train2,
+                epochs=30,
+                verbose=1,
+                batch_size=1000)
+
+    # list all data in history
+    print(history.history.keys())
+
+    model2.save('model2.h5')
+
+    print("[INFO] Preparing model 3...")
+
+    # L3 = [{'batch_size': 1000, 'dropout': 0.2, 'epochs': 30, 'kernel': 'uniform', 'learning': 0.001}] # 1JHN
+    # L4 = [{'batch_size': 1000, 'dropout': 0.1, 'epochs': 30, 'kernel': 'uniform', 'learning': 0.001}] # 2JHN
+    # L5 = [{'batch_size': 1000, 'dropout': 0.1, 'epochs': 30, 'kernel': 'uniform', 'learning': 0.001}] # 2JHC
+    # L6 = [{'batch_size': 1000, 'dropout': 0.1, 'epochs': 30, 'kernel': 'uniform', 'learning': 0.001}] # 3JHH
+    # L7 = [{'batch_size': 1000, 'dropout': 0.1, 'epochs': 30, 'kernel': 'uniform', 'learning': 0.001}] # 3JHC
+    # L8 = [{'batch_size': 1000, 'dropout': 0.1, 'epochs': 30, 'kernel': 'uniform', 'learning': 0.001}] # 3JHN
+
+
+
+    model3 = tf.keras.Sequential()
+    model3.add(layers.Dense(64, input_dim=X_train3.shape[1], kernel_initializer='uniform', activation='relu'))
+    model3.add(layers.Dropout(0.2))
+    model3.add(layers.Dense(64, kernel_initializer='uniform', activation='relu'))
+    model3.add(layers.Dense(64, kernel_initializer='uniform', activation='relu'))
+    model3.add(layers.Dropout(0.2))
+    model3.add(layers.Dense(1))
+
+    # compile model
+
+    rms = RMSprop(lr=0.001, rho=0.9, epsilon=None, decay=0.0)
+
+    model3.compile(loss='mse',
+                  optimizer=rms,
+                  metrics=['mae'])
+
+    model3.output_shape
+    model3.summary()
+    model3.get_config()
+    model3.get_weights()
+
+    print("[INFO] training model 3...")
+
+    history = model3.fit(X_train3, y_train3,
+                epochs=30,
+                verbose=1,
+                batch_size=1000)
+
+    # list all data in history
+    print(history.history.keys())
+
+    model3.save('model3.h5')
+
+    print("[INFO] Preparing model 4...")
+
+    # L4 = [{'batch_size': 1000, 'dropout': 0.1, 'epochs': 30, 'kernel': 'uniform', 'learning': 0.001}] # 2JHN
+    # L5 = [{'batch_size': 1000, 'dropout': 0.1, 'epochs': 30, 'kernel': 'uniform', 'learning': 0.001}] # 2JHC
+    # L6 = [{'batch_size': 1000, 'dropout': 0.1, 'epochs': 30, 'kernel': 'uniform', 'learning': 0.001}] # 3JHH
+    # L7 = [{'batch_size': 1000, 'dropout': 0.1, 'epochs': 30, 'kernel': 'uniform', 'learning': 0.001}] # 3JHC
+    # L8 = [{'batch_size': 1000, 'dropout': 0.1, 'epochs': 30, 'kernel': 'uniform', 'learning': 0.001}] # 3JHN
+
+    model4 = tf.keras.Sequential()
+    model4.add(layers.Dense(64, input_dim=X_train4.shape[1], kernel_initializer='uniform', activation='relu'))
+    model4.add(layers.Dropout(0.1))
+    model4.add(layers.Dense(64, kernel_initializer='uniform', activation='relu'))
+    model4.add(layers.Dense(64, kernel_initializer='uniform', activation='relu'))
+    model4.add(layers.Dropout(0.1))
+    model4.add(layers.Dense(1))
+
+    # compile model
+
+    rms = RMSprop(lr=0.001, rho=0.9, epsilon=None, decay=0.0)
+
+    model4.compile(loss='mse',
+                  optimizer=rms,
+                  metrics=['mae'])
+
+    model4.output_shape
+    model4.summary()
+    model4.get_config()
+    model4.get_weights()
+
+    print("[INFO] training model 4...")
+
+    history = model4.fit(X_train4, y_train4,
+                epochs=30,
+                verbose=1,
+                batch_size=1000)
+
+    # list all data in history
+    print(history.history.keys())
+
+    print("[INFO] Preparing model 5...")
+
+    model4.save('model4.h5')
+
+    model5 = tf.keras.Sequential()
+    model5.add(layers.Dense(64, input_dim=X_train5.shape[1], kernel_initializer='uniform', activation='relu'))
+    model5.add(layers.Dropout(0.1))
+    model5.add(layers.Dense(64, kernel_initializer='uniform', activation='relu'))
+    model5.add(layers.Dense(64, kernel_initializer='uniform', activation='relu'))
+    model5.add(layers.Dropout(0.1))
+    model5.add(layers.Dense(1))
+
+    # compile model
+
+    rms = RMSprop(lr=0.001, rho=0.9, epsilon=None, decay=0.0)
+
+    model5.compile(loss='mse',
+                  optimizer=rms,
+                  metrics=['mae'])
+
+    model5.output_shape
+    model5.summary()
+    model5.get_config()
+    model5.get_weights()
+
+    print("[INFO] training model 5...")
+
+    history = model5.fit(X_train5, y_train5,
+                epochs=30,
+                verbose=1,
+                batch_size=1000)
+
+    # list all data in history
+    print(history.history.keys())
+
+    model5.save('model5.h5')
+
+    print("[INFO] Preparing model 6...")
+
+    model6 = tf.keras.Sequential()
+    model6.add(layers.Dense(64, input_dim=X_train6.shape[1], kernel_initializer='uniform', activation='relu'))
+    model6.add(layers.Dropout(0.1))
+    model6.add(layers.Dense(64, kernel_initializer='uniform', activation='relu'))
+    model6.add(layers.Dense(64, kernel_initializer='uniform', activation='relu'))
+    model6.add(layers.Dropout(0.1))
+    model6.add(layers.Dense(1))
+
+    # compile model
+
+    rms = RMSprop(lr=0.001, rho=0.9, epsilon=None, decay=0.0)
+
+    model6.compile(loss='mse',
+                  optimizer=rms,
+                  metrics=['mae'])
+
+    model6.output_shape
+    model6.summary()
+    model6.get_config()
+    model6.get_weights()
+
+    print("[INFO] training model 6...")
+
+    history = model6.fit(X_train6, y_train6,
+                epochs=30,
+                verbose=1,
+                batch_size=1000)
+
+    # list all data in history
+    print(history.history.keys())
+
+    model6.save('model6.h5')
+
+    print("[INFO] Preparing model 7...")
+
+    model7 = tf.keras.Sequential()
+    model7.add(layers.Dense(64, input_dim=X_train7.shape[1], kernel_initializer='uniform', activation='relu'))
+    model7.add(layers.Dropout(0.1))
+    model7.add(layers.Dense(64, kernel_initializer='uniform', activation='relu'))
+    model7.add(layers.Dense(64, kernel_initializer='uniform', activation='relu'))
+    model7.add(layers.Dropout(0.1))
+    model7.add(layers.Dense(1))
+
+    # compile model
+
+    rms = RMSprop(lr=0.001, rho=0.9, epsilon=None, decay=0.0)
+
+    model7.compile(loss='mse',
+                  optimizer=rms,
+                  metrics=['mae'])
+
+    model7.output_shape
+    model7.summary()
+    model7.get_config()
+    model7.get_weights()
+
+    print("[INFO] training model 7...")
+
+    history = model7.fit(X_train7, y_train7,
+                epochs=30,
+                verbose=1,
+                batch_size=1000)
+
+    # list all data in history
+    print(history.history.keys())
+
+    model7.save('model7.h5')
+
+    print("[INFO] Preparing model 8...")
+
+    model8 = tf.keras.Sequential()
+    model8.add(layers.Dense(64, input_dim=X_train8.shape[1], kernel_initializer='uniform', activation='relu'))
+    model8.add(layers.Dropout(0.1))
+    model8.add(layers.Dense(64, kernel_initializer='uniform', activation='relu'))
+    model8.add(layers.Dense(64, kernel_initializer='uniform', activation='relu'))
+    model8.add(layers.Dropout(0.1))
+    model8.add(layers.Dense(1))
+
+    # compile model
+
+    rms = RMSprop(lr=0.001, rho=0.9, epsilon=None, decay=0.0)
+
+    model4.compile(loss='mse',
+                  optimizer=rms,
+                  metrics=['mae'])
+
+    model8.output_shape
+    model8.summary()
+    model8.get_config()
+    model8.get_weights()
+
+    print("[INFO] training model 8...")
+
+    history = model8.fit(X_train8, y_train8,
+                epochs=30,
+                verbose=1,
+                batch_size=1000)
+
+    # list all data in history
+    print(history.history.keys())
+
+    model8.save('model8.h5')
 
 def main(debug = False):
     p = 0.01 if debug else 1
@@ -180,22 +472,22 @@ def main(debug = False):
 
     with timer("Importing datasets: "):
         print("Importing datasets")
-        df, data_set = import_data()
+        df_train = import_data()
         gc.collect();
 
     with timer("Grouping by type: "):
         print("Group by type")
-        df, coupling_type = group_by_type(df, data_set)
+        df1, df2, df3, df4, df5, df6, df7, df8 = group_by_type(df_train)
         gc.collect();
 
-    with timer("Preparing X_train / y_train: "):
-        print("X_train / y_train")
-        X_train, y_train = train_validate(df)
+    with timer("Preparing to train: "):
+        print("Training complete")
+        X_train1, y_train1, X_train2, y_train2, X_train3, y_train3, X_train4, y_train4, X_train5, y_train5, X_train6, y_train6, X_train7, y_train7, X_train8, y_train8 = train_validate(df1, df2, df3, df4, df5, df6, df7, df8)
         gc.collect();
 
     with timer("Creating and testing model: "):
         print("Creating and testing model")
-        model = create_model(X_train, coupling_type)
+        create_model(X_train1, y_train1, X_train2, y_train2, X_train3, y_train3, X_train4, y_train4, X_train5, y_train5, X_train6, y_train6, X_train7, y_train7, X_train8, y_train8)
         gc.collect();
 
 if __name__ == "__main__":
