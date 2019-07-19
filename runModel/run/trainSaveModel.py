@@ -156,9 +156,9 @@ def train_validate(df1, df2, df3, df4, df5, df6, df7, df8):
 
     print("Datasets: Prepared")
 
-    return X_train1, y1, X_train2, y2, X_train3, y3, X_train4, y4, X_train5, y5, X_train6, y6, X_train7, y7, X_train8, y8
+    return X_train1, y_train1, X_train2, y_train2, X_train3, y_train3, X_train4, y_train4, X_train5, y_train5, X_train6, y_train6, X_train7, y_train7, X_train8, y_train8
 
-def create_model(X_train1, y1, X_train2, y2, X_train3, y3, X_train4, y4, X_train5, y5, X_train6, y6, X_train7, y7, X_train8, y8):
+def create_model(X_train1, y_train1, X_train2, y_train2, X_train3, y_train3, X_train4, y_train4, X_train5, y_train5, X_train6, y_train6, X_train7, y_train7, X_train8, y_train8):
 
     # L1 = [{'batch_size': 1000, 'dropout': 0.2, 'epochs': 30, 'kernel': <keras.initializers.Ones object at 0x7f2532713128>, 'learning': 0.01}] # 1JHC
 
@@ -480,12 +480,12 @@ def main(debug = False):
 
     with timer("Preparing to train: "):
         print("Training complete")
-        X_train1, y1, X_train2, y2, X_train3, y3, X_train4, y4, X_train5, y5, X_train6, y6, X_train7, y7, X_train8, y8 = train_validate(df1, df2, df3, df4, df5, df6, df7, df8)
+        X_train1, y_train1, X_train2, y_train2, X_train3, y_train3, X_train4, y_train4, X_train5, y_train5, X_train6, y_train6, X_train7, y_train7, X_train8, y_train8 = train_validate(df1, df2, df3, df4, df5, df6, df7, df8)
         gc.collect();
 
     with timer("Creating and testing model: "):
         print("Creating and testing model")
-        create_model(X_train1, y1, X_train2, y2, X_train3, y3, X_train4, y4, X_train5, y5, X_train6, y6, X_train7, y7, X_train8, y8)
+        create_model(X_train1, y_train1, X_train2, y_train2, X_train3, y_train3, X_train4, y_train4, X_train5, y_train5, X_train6, y_train6, X_train7, y_train7, X_train8, y_train8)
         gc.collect();
 
 if __name__ == "__main__":
