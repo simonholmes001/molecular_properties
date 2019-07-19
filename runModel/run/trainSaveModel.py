@@ -86,7 +86,7 @@ def import_data():
 
     return df_train
 
-def group_by_type(df):
+def group_by_type(df_train):
 
     print("[INFO] Grouping by type...")
 
@@ -158,7 +158,7 @@ def train_validate(df1, df2, df3, df4, df5, df6, df7, df8):
 
     return X_train1, y1, X_train2, y2, X_train3, y3, X_train4, y4, X_train5, y5, X_train6, y6, X_train7, y7, X_train8, y8
 
-def create_model(X_train1, y1, X_train2, y2, X_train3, y3, X_train4, y4, X_train5, y5, X_train6, y6, X_train7, y7, X_train8, y8): 
+def create_model(X_train1, y1, X_train2, y2, X_train3, y3, X_train4, y4, X_train5, y5, X_train6, y6, X_train7, y7, X_train8, y8):
 
     # L1 = [{'batch_size': 1000, 'dropout': 0.2, 'epochs': 30, 'kernel': <keras.initializers.Ones object at 0x7f2532713128>, 'learning': 0.01}] # 1JHC
 
@@ -470,12 +470,12 @@ def main(debug = False):
 
     with timer("Importing datasets: "):
         print("Importing datasets")
-        df = import_data()
+        df_train = import_data()
         gc.collect();
 
     with timer("Grouping by type: "):
         print("Group by type")
-        df1, df2, df3, df4, df5, df6, df7, df8 = group_by_type(df)
+        df1, df2, df3, df4, df5, df6, df7, df8 = group_by_type(df_train)
         gc.collect();
 
     with timer("Preparing to train: "):
