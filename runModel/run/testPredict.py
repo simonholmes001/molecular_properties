@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 
 from keras.models import load_model
 
+from sklearn.model_selection import train_test_split
+from sklearn import preprocessing
+
 import tensorflow as tf
 
 import os
@@ -69,11 +72,25 @@ def group_by_type(df_test):
     df7.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1'], axis=1, inplace=True)
     df8.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1'], axis=1, inplace=True)
 
-    return df1, df2, df3, df4, df5, df6, df7, df8, id1, id2, id3, id4, id5, id6, id7, id8
+    print("[INFO] Preparing normalization...")
+
+    min_max_scaler = preprocessing.MinMaxScaler()
+    X_test1 = min_max_scaler.fit_transform(df1)
+    X_test2 = min_max_scaler.fit_transform(df2)
+    X_test3 = min_max_scaler.fit_transform(df3)
+    X_test4 = min_max_scaler.fit_transform(df4)
+    X_test5 = min_max_scaler.fit_transform(df5)
+    X_test6 = min_max_scaler.fit_transform(df6)
+    X_test7 = min_max_scaler.fit_transform(df7)
+    X_test8 = min_max_scaler.fit_transform(df8)
+
+    print("Datasets: Prepared")
+
+    return X_test1, X_test2, X_test3, X_test4, X_test5, X_test7, X_test8, id1, id2, id3, id4, id5, id6, id7, id8
 
     print("[INFO] Grouping completed")
 
-def predictions(df1, df2, df3, df4, df5, df6, df7, df8, id1, id2, id3, id4, id5, id6, id7, id8):
+def predictions(X_test1, X_test2, X_test3, X_test4, X_test5, X_test7, X_test8, id1, id2, id3, id4, id5, id6, id7, id8):
 
     print("[INFO] running predictions...")
 
@@ -96,42 +113,42 @@ def predictions(df1, df2, df3, df4, df5, df6, df7, df8, id1, id2, id3, id4, id5,
     model8.summary()
 
     # make a prediction
-    y1 = model1.predict(df1)
+    y1 = model1.predict(X_test1)
     test_Results_1 = pd.DataFrame(data = id1, columns=["id", "molecule_name"])
     y_predict_1 = pd.DataFrame(y1, columns=["scalar_coupling_constant"])
     testResults_1 = test_Results_1.join(y_predict_1)
 
-    y2 = model2.predict(df2)
+    y2 = model2.predict(X_test2)
     test_Results_2 = pd.DataFrame(data = id2, columns=["id", "molecule_name"])
     y_predict_2 = pd.DataFrame(y2, columns=["scalar_coupling_constant"])
     testResults_2 = test_Results_2.join(y_predict_2)
 
-    y3 = model3.predict(df3)
+    y3 = model3.predict(X_test3)
     test_Results_3 = pd.DataFrame(data = id3, columns=["id", "molecule_name"])
     y_predict_3 = pd.DataFrame(y3, columns=["scalar_coupling_constant"])
     testResults_3 = test_Results_3.join(y_predict_3)
 
-    y4 = model4.predict(df4)
+    y4 = model4.predict(X_test4)
     test_Results_4 = pd.DataFrame(data = id4, columns=["id", "molecule_name"])
     y_predict_4 = pd.DataFrame(y4, columns=["scalar_coupling_constant"])
     testResults_4 = test_Results_4.join(y_predict_4)
 
-    y5 = model5.predict(df5)
+    y5 = model5.predict(X_test5)
     test_Results_5 = pd.DataFrame(data = id5, columns=["id", "molecule_name"])
     y_predict_5 = pd.DataFrame(y5, columns=["scalar_coupling_constant"])
     testResults_5 = test_Results_5.join(y_predict_5)
 
-    y6 = model6.predict(df6)
+    y6 = model6.predict(X_test6)
     test_Results_6 = pd.DataFrame(data = id6, columns=["id", "molecule_name"])
     y_predict_6 = pd.DataFrame(y6, columns=["scalar_coupling_constant"])
     testResults_6 = test_Results_6.join(y_predict_6)
 
-    y7 = model7.predict(df7)
+    y7 = model7.predict(X_test7)
     test_Results_7 = pd.DataFrame(data = id7, columns=["id", "molecule_name"])
     y_predict_7 = pd.DataFrame(y7, columns=["scalar_coupling_constant"])
     testResults_7 = test_Results_7.join(y_predict_7)
 
-    y8 = model8.predict(df8)
+    y8 = model8.predict(X_test8)
     test_Results_8 = pd.DataFrame(data = id8, columns=["id", "molecule_name"])
     y_predict_8 = pd.DataFrame(y8, columns=["scalar_coupling_constant"])
     testResults_8 = test_Results_8.join(y_predict_8)
@@ -169,12 +186,12 @@ def main(debug = False):
 
     with timer("Grouping by type: "):
         print("Group by type")
-        df1, df2, df3, df4, df5, df6, df7, df8, id1, id2, id3, id4, id5, id6, id7, id8 = group_by_type(df_test)
+        X_test1, X_test2, X_test3, X_test4, X_test5, X_test7, X_test8, id1, id2, id3, id4, id5, id6, id7, id8 = group_by_type(df_test)
         gc.collect();
 
     with timer("Preparing to predict: "):
         print("Predictions complete")
-        predictions(df1, df2, df3, df4, df5, df6, df7, df8, id1, id2, id3, id4, id5, id6, id7, id8)
+        predictions(X_test1, X_test2, X_test3, X_test4, X_test5, X_test7, X_test8, id1, id2, id3, id4, id5, id6, id7, id8)
         gc.collect();
 
 if __name__ == "__main__":
