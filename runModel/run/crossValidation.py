@@ -135,7 +135,7 @@ def cross_validation(model, X_train, X_val, y_train, y_val):
     param_grid = dict(batch_size=batches, epochs=epochs, dropout=dropout, kernel=kernel, learning=learning)
     grid = GridSearchCV(estimator=model_init_batch_epoch_CV,
                         param_grid=param_grid,
-                        cv=3, n_jobs=-1)
+                        cv=3)
     grid_result = grid.fit(X_train, y_train)
 
     # printresults
