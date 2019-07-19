@@ -162,6 +162,8 @@ def create_model(X_train1, y_train1, X_train2, y_train2, X_train3, y_train3, X_t
 
     # L1 = [{'batch_size': 1000, 'dropout': 0.2, 'epochs': 30, 'kernel': <keras.initializers.Ones object at 0x7f2532713128>, 'learning': 0.01}] # 1JHC
 
+    ones = initializers.Ones()
+
     model1 = tf.keras.Sequential()
     model1.add(layers.Dense(64, input_dim=X_train1.shape[1], kernel_initializer=ones, activation='relu'))
     model1.add(layers.Dropout(0.2))
@@ -194,11 +196,11 @@ def create_model(X_train1, y_train1, X_train2, y_train2, X_train3, y_train3, X_t
     print(history.history.keys())
 
     # we choose the initializers that came at the top in our previous cross-validation!!
-    zero = initializers.Zeros()
-    ones = initializers.Ones()
-    constant = initializers.Constant(value=0)
-    rand = initializers.RandomNormal(mean=0.0, stddev=0.05, seed=None) # cannot use this option for the moment, need to find the correct syntax
-    uniform = 'uniform'
+#    zero = initializers.Zeros()
+#    ones = initializers.Ones()
+#    constant = initializers.Constant(value=0)
+#    rand = initializers.RandomNormal(mean=0.0, stddev=0.05, seed=None) # cannot use this option for the moment, need to find the correct syntax
+#    uniform = 'uniform'
 
     model1.save('model1.h5')
 
