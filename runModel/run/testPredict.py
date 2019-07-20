@@ -63,14 +63,14 @@ def group_by_type(df_test):
     id7 = pd.DataFrame(data = df7, columns=["id", "molecule_name"])
     id8 = pd.DataFrame(data = df8, columns=["id", "molecule_name"])
 
-    df11 = df1.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1'], axis=1, inplace=True)
-    df12 = df2.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1'], axis=1, inplace=True)
-    df13 = df3.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1'], axis=1, inplace=True)
-    df14 = df4.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1'], axis=1, inplace=True)
-    df15 = df5.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1'], axis=1, inplace=True)
-    df16 = df6.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1'], axis=1, inplace=True)
-    df17 = df7.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1'], axis=1, inplace=True)
-    df18 = df8.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1'], axis=1, inplace=True)
+    df11 = pd.DataFrame(data = df1.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1'], axis=1, inplace=True))
+    df12 = pd.DataFrame(data = df2.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1'], axis=1, inplace=True))
+    df13 = pd.DataFrame(data = df3.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1'], axis=1, inplace=True))
+    df14 = pd.DataFrame(data = df4.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1'], axis=1, inplace=True))
+    df15 = pd.DataFrame(data = df5.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1'], axis=1, inplace=True))
+    df16 = pd.DataFrame(data = df6.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1'], axis=1, inplace=True))
+    df17 = pd.DataFrame(data = df7.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1'], axis=1, inplace=True))
+    df18 = pd.DataFrame(data = df8.drop(['id', 'molecule_name', 'type', 'atom_0', 'atom_1'], axis=1, inplace=True))
 
     print("[INFO] Preparing normalization...")
 
