@@ -481,7 +481,7 @@ def create_model(X_train1, y_train1, X_train2, y_train2, X_train3, y_train3, X_t
 
     rms = RMSprop(lr=0.001, rho=0.9, epsilon=None, decay=0.0)
 
-    model4.compile(loss='mse',
+    model8.compile(loss='mse',
                   optimizer=rms,
                   metrics=['mae'])
 
