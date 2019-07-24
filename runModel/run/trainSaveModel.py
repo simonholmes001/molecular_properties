@@ -154,42 +154,6 @@ def train_validate(df1, df2, df3, df4, df5, df6, df7, df8):
     X_train7 = min_max_scaler.fit_transform(X_train7)
     X_train8 = min_max_scaler.fit_transform(X_train8)
 
-#    X_train1.astype(np.int64)
-#    X_train2.astype(np.int64)
-#    X_train3.astype(np.int64)
-#    X_train4.astype(np.int64)
-#    X_train5.astype(np.int64)
-#    X_train6.astype(np.int64)
-#    X_train7.astype(np.int64)
-#    X_train8.astype(np.int64)
-
-#    y_train1.astype(np.int64)
-#    y_train2.astype(np.int64)
-#    y_train3.astype(np.int64)
-#    y_train4.astype(np.int64)
-#    y_train5.astype(np.int64)
-#    y_train6.astype(np.int64)
-#    y_train7.astype(np.int64)
-#    y_train8.astype(np.int64)
-
-#    X_test1.astype(np.int64)
-#    X_test2.astype(np.int64)
-#    X_test3.astype(np.int64)
-#    X_test4.astype(np.int64)
-#    X_test5.astype(np.int64)
-#    X_test6.astype(np.int64)
-#    X_test7.astype(np.int64)
-#    X_test8.astype(np.int64)
-
-#    y_test1.astype(np.int64)
-#    y_test2.astype(np.int64)
-#    y_test3.astype(np.int64)
-#    y_test4.astype(np.int64)
-#    y_test5.astype(np.int64)
-#    y_test6.astype(np.int64)
-#    y_test7.astype(np.int64)
-#    y_test8.astype(np.int64)
-
     print("Datasets: Prepared")
 
     return X_train1, y_train1, X_train2, y_train2, X_train3, y_train3, X_train4, y_train4, X_train5, y_train5, X_train6, y_train6, X_train7, y_train7, X_train8, y_train8
