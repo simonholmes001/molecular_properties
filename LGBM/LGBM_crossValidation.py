@@ -14,8 +14,6 @@ from contextlib import contextmanager
 import time
 import gc
 
-from createTrainVal import import_data, group_by_type
-
 CUR_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(CUR_DIR, "data")
 
@@ -137,8 +135,7 @@ def import_data():
 
     print("[INFO]: data preparation complete")
 
-    return X_train1, X_train2, X_train3, X_train4, X_train5, X_train6, X_train7, X_train8, y_train1, y_train2, y_train3, y_train4, y_train5, y_train6, y_train7, y_train8,
-            X_test1, X_test2, X_test3, X_test4, X_test5, X_test6, X_test7, X_test8, y_test1, y_test2, y_test3, y_test4, y_test5, y_test6, y_test7, y_test8
+    return X_train1, X_train2, X_train3, X_train4, X_train5, X_train6, X_train7, X_train8, y_train1, y_train2, y_train3, y_train4, y_train5, y_train6, y_train7, y_train8, X_test1, X_test2, X_test3, X_test4, X_test5, X_test6, X_test7, X_test8, y_test1, y_test2, y_test3, y_test4, y_test5, y_test6, y_test7, y_test8
 
 def model_create():
 
@@ -219,15 +216,14 @@ def grid_search(X_train1, X_train2, X_train3, X_train4, X_train5, X_train6, X_tr
 
     learning = [0.2, 0.02, 0.002]
     n_estimators = [100,500,1500] # number of trees
-    n_leaves = [50, 128, 250] # large num_leaves helps improve accuracy but might lead to over-fitting
+    num_leaves = [50, 128, 250] # large num_leaves helps improve accuracy but might lead to over-fitting
     boosting_type = ['gbdt', 'dart']
     max_bin = [255, 510] # large max_bin helps improve accuracy but might slow down training progress
     reg_alpha = [0.1, 1]
     reg_lambda = [0.3, 0.5, 1]
 
     # grid search for initializer, batch size and number of epochs
-    param_grid = dict('max_bin'=max_bin, 'boosting_type'=boosting_type, 'n_leaves'=n_leaves, 'n_estimators'=n_estimators, 'learning_rate'=learning,
-                    'reg_alpha' = reg_alpha, 'reg_lambda' = reg_lambda)
+    param_grid = dict(max_bin=max_bin, boosting_type=boosting_type, num_leaves=num_leaves, n_estimators=n_estimators, learning_rate=learning, reg_alpha = reg_alpha, reg_lambda = reg_lambda)
 
     grid = GridSearchCV(estimator=model, param_grid=param_grid, n_jobs=-1, cv=3, verbose=1)
 
@@ -249,13 +245,12 @@ def main(debug = False):
 
     with timer("Importing datasets: "):
         print("Importing datasets")
-        X_train1, X_train2, X_train3, X_train4, X_train5, X_train6, X_train7, X_train8, y_train1, y_train2, y_train3, y_train4, y_train5, y_train6, y_train7, y_train8,
-                X_test1, X_test2, X_test3, X_test4, X_test5, X_test6, X_test7, X_test8, y_test1, y_test2, y_test3, y_test4, y_test5, y_test6, y_test7, y_test8 = import_data()
+        X_train1, X_train2, X_train3, X_train4, X_train5, X_train6, X_train7, X_train8, y_train1, y_train2, y_train3, y_train4, y_train5, y_train6, y_train7, y_train8,X_test1, X_test2, X_test3, X_test4, X_test5, X_test6, X_test7, X_test8, y_test1, y_test2, y_test3, y_test4, y_test5, y_test6, y_test7, y_test8 = import_data()
         gc.collect();
 
     with timer("Creating model: "):
         print("Model creation complete")
-        model = create_model()
+        model = model_create()
         gc.collect();
 
     with timer("Running grid search: "):
