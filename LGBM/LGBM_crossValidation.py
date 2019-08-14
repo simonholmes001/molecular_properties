@@ -218,14 +218,14 @@ def grid_search(X_train1, X_train2, X_train3, X_train4, X_train5, X_train6, X_tr
     n_estimators = [1000, 2000] # number of trees
     num_leaves = [128, 250] # large num_leaves helps improve accuracy but might lead to over-fitting
     boosting_type = ['gbdt', 'dart']
-#    max_bin = [255, 510] # large max_bin helps improve accuracy but might slow down training progress
+    max_bin = [255, 510] # large max_bin helps improve accuracy but might slow down training progress
     reg_alpha = [0.1, 1]
     reg_lambda = [0.3, 0.5]
 
     # grid search for initializer, batch size and number of epochs
-    param_grid = dict(boosting_type=boosting_type, num_leaves=num_leaves, n_estimators=n_estimators, learning_rate=learning, reg_alpha = reg_alpha, reg_lambda = reg_lambda) # max_bin=max_bin,
+    param_grid = dict(boosting_type=boosting_type, num_leaves=num_leaves, n_estimators=n_estimators, learning_rate=learning, reg_alpha = reg_alpha, reg_lambda = reg_lambda, max_bin=max_bin) # ,
 
-    grid = GridSearchCV(estimator=model, param_grid=param_grid, n_jobs=-1, cv=3, verbose=1)
+    grid = GridSearchCV(model, param_grid, n_jobs=-1, cv=3, verbose=1)
 
     grid_result = grid.fit(X_train, y_train)
 
